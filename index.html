@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surprise for My Love</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: 'Pacifico', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(90deg, rgba(255, 102, 178, 0.3), rgba(255, 153, 204, 0.3));
+      background-size: 200% 200%;
+      animation: foggyGradient 8s ease infinite;
+      overflow: hidden;
+    }
+
+    @keyframes foggyGradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Welcome Box */
+    #welcome {
+      text-align: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+    }
+
+    #welcome h1 {
+      font-size: 3em;
+      color: #ff66b2;
+    }
+
+    #welcome button {
+      padding: 15px 25px;
+      background-color: #ff99cc;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: all 0.3s ease;
+    }
+
+    #welcome button:hover {
+      background-color: #ff66b2;
+      transform: scale(1.1);
+    }
+
+    /* Pop-up for Message and GIF */
+    .popup {
+      display: none;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .popup img {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 10px;
+    }
+
+    .popup p {
+      font-size: 1.2em;
+      margin-top: 15px;
+    }
+
+    .cool-button {
+      margin-top: 20px;
+      padding: 15px 30px;
+      background: linear-gradient(45deg, #ff66b2, #ff99cc);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1.2em;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s ease;
+    }
+
+    .cool-button:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    #videoPopup {
+      display: none;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 20px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    #manualMessage {
+      margin-top: 10px;
+      font-size: 1.1em;
+      color: #ff66b2;
+    }
+  </style>
+</head>
+<body>
+  <!-- Welcome Screen -->
+  <div id="welcome">
+    <h1>Hey Cutie! ❤️</h1>
+    <p>Happy New Year! Here's a little surprise for you.</p>
+    <button onclick="showPopup()">Click Me!</button>
+  </div>
+
+  <!-- Message and GIF Pop-up -->
+  <div id="messagePopup" class="popup">
+    <p>Can't wait to surprise you, future wife! 💍</p>
+    <img src="https://media.tenor.com/-3Z-ojIe5IcAAAAj/bubu-dudu-sseeyall.gif" alt="Surprise GIF">
+    <p>Shake your phone or press 'Next' for a surprise! 🌟</p>
+    <button class="cool-button" onclick="triggerShake()">Next</button>
+  </div>
+
+  <!-- YouTube Video Pop-up -->
+  <div id="videoPopup">
+    <iframe 
+      id="videoFrame"
+      src="https://www.youtube.com/embed/6d5SS0gS5bU?autoplay=1&rel=0&controls=0&modestbranding=1&fs=0&iv_load_policy=3&showinfo=0" 
+      allow="autoplay; encrypted-media" 
+      allowfullscreen>
+    </iframe>
+    <p id="manualMessage">If the video doesn't play, please tap the Play button below. 😊</p>
+  </div>
+
+  <script>
+    // Show pop-up
+    function showPopup() {
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("messagePopup").style.display = "block";
+      history.pushState({ screen: 'messagePopup' }, 'Message Popup', '#messagePopup');
+    }
+
+    // Shake detection and video display
+    let shakeThreshold = 15; // Sensitivity
+    let lastX = 0, lastY = 0, lastZ = 0;
+
+    window.addEventListener("devicemotion", function(event) {
+      const acc = event.accelerationIncludingGravity;
+      if (!acc) return;
+
+      const deltaX = Math.abs(lastX - acc.x);
+      const deltaY = Math.abs(lastY - acc.y);
+      const deltaZ = Math.abs(lastZ - acc.z);
+
+      if (deltaX > shakeThreshold || deltaY > shakeThreshold || deltaZ > shakeThreshold) {
+        triggerShake();
+      }
+
+      lastX = acc.x;
+      lastY = acc.y;
+      lastZ = acc.z;
+    });
+
+    function triggerShake() {
+      if (navigator.vibrate) {
+        navigator.vibrate(500); // Vibrates the device for 500ms
+      }
+      playVideo();
+    }
+
+    // Play video
+    function playVideo() {
+      document.getElementById("messagePopup").style.display = "none";
+      document.getElementById("videoPopup").style.display = "block";
+      document.getElementById("videoFrame").src = "https://www.youtube.com/embed/6d5SS0gS5bU?autoplay=1&rel=0&controls=0&modestbranding=1&fs=0&iv_load_policy=3&showinfo=0";
+      history.pushState({ screen: 'videoPopup' }, 'Video Popup', '#videoPopup');
+    }
+
+    // Handle the back button on mobile
+    window.addEventListener('popstate', function(event) {
+      if (event.state && event.state.screen === 'messagePopup') {
+        document.getElementById("messagePopup").style.display = "block";
+        document.getElementById("videoPopup").style.display = "none";
+      } else if (event.state && event.state.screen === 'videoPopup') {
+        // Don't allow going back to the welcome screen directly from video screen
+        document.getElementById("messagePopup").style.display = "block";
+        document.getElementById("videoPopup").style.display = "none";
+        history.pushState({ screen: 'messagePopup' }, 'Message Popup', '#messagePopup');
+      } else {
+        document.getElementById("welcome").style.display = "block";
+        document.getElementById("messagePopup").style.display = "none";
+        document.getElementById("videoPopup").style.display = "none";
+      }
+    });
+
+    // Prevent user from going back to the home page using the mobile back button
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = function () {
+      window.history.pushState(null, "", window.location.href);
+    };
+  </script>
+</body>
+</html>
