@@ -1,126 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy New Year</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surprise for My Love</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: 'Pacifico', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(90deg, rgba(255, 102, 178, 0.3), rgba(255, 153, 204, 0.3));
+      background-size: 200% 200%;
+      animation: foggyGradient 8s ease infinite;
+      overflow: hidden;
+    }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    @keyframes foggyGradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
 
-        #messagePopup, #videoPopup {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: none;
-        }
+    /* Welcome Box */
+    #welcome {
+      text-align: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+    }
 
-        button {
-            font-size: 18px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background: #ff6f61;
-            color: white;
-            transition: background 0.3s ease;
-        }
+    #welcome h1 {
+      font-size: 3em;
+      color: #ff66b2;
+    }
 
-        button:hover {
-            background: #e65a50;
-        }
+    #welcome button {
+      padding: 15px 25px;
+      background-color: #ff99cc;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: all 0.3s ease;
+    }
 
-        video {
-            width: 100%;
-            max-width: 800px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-    </style>
+    #welcome button:hover {
+      background-color: #ff66b2;
+      transform: scale(1.1);
+    }
+
+    /* Pop-up for Message and GIF */
+    .popup {
+      display: none;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .popup img {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 10px;
+    }
+
+    .popup p {
+      font-size: 1.2em;
+      margin-top: 15px;
+    }
+
+    .cool-button {
+      margin-top: 20px;
+      padding: 15px 30px;
+      background: linear-gradient(45deg, #ff66b2, #ff99cc);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1.2em;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s ease;
+    }
+
+    .cool-button:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    #videoPopup {
+      display: none;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 20px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    #manualMessage {
+      margin-top: 10px;
+      font-size: 1.1em;
+      color: #ff66b2;
+    }
+  </style>
 </head>
 <body>
-    <!-- Message Popup -->
-    <div id="messagePopup">
-        <p>Can't wait to surprise you, future wife! 😊</p>
-        <img src="https://media.tenor.com/-3Z-ojIe5IcAAAAj/bubu-dudu-sseeyall.gif" alt="Cute Bear" style="width: 100px; height: auto;">
-        <p>Shake your phone for a surprise or click the button below:</p>
-        <button id="nextButton">Next</button>
-    </div>
+  <!-- Welcome Screen -->
+  <div id="welcome">
+    <h1>Hey Cutie! ❤️</h1>
+    <p>Happy New Year! Here's a little surprise for you.</p>
+    <button onclick="showPopup()">Click Me!</button>
+  </div>
 
-    <!-- Video Popup -->
-    <div id="videoPopup">
-        <video id="videoFrame" autoplay muted controls>
-            <source src="https://raw.githubusercontent.com/123643/Happy-new-year/e9e8ff2f288b06708eea30ef355309ad47ed7f84/assets/videos/lv_0_20250101000631.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
+  <!-- Message and GIF Pop-up -->
+  <div id="messagePopup" class="popup">
+    <p>Can't wait to surprise you, future wife! 💍</p>
+    <img src="https://media.tenor.com/-3Z-ojIe5IcAAAAj/bubu-dudu-sseeyall.gif" alt="Surprise GIF">
+    <p>Shake your phone or press 'Next' for a surprise! 🌟</p>
+    <button class="cool-button" onclick="triggerShake()">Next</button>
+  </div>
 
-    <script>
-        // Initial Screen: Display the message popup
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("messagePopup").style.display = "block";
+  <!-- Video Pop-up -->
+  <div id="videoPopup">
+    <video id="videoPlayer" autoplay muted controls>
+      <source src="https://raw.githubusercontent.com/123643/Happy-new-year/b8e9fb3076d2ccbb530d747a3a786964671d8d52/assets/videos/lv_0_20250101013112.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <p id="manualMessage">If the video doesn't play, please use the controls to watch it. 😊</p>
+  </div>
 
-            // Add shake event listener
-            if (window.DeviceMotionEvent) {
-                let shakeThreshold = 15;
-                let lastX = null, lastY = null, lastZ = null;
+  <script>
+    function showPopup() {
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("messagePopup").style.display = "block";
+      history.pushState({ screen: 'messagePopup' }, 'Message Popup', '#messagePopup');
+    }
 
-                window.addEventListener("devicemotion", (event) => {
-                    let { x, y, z } = event.accelerationIncludingGravity;
+    let shakeThreshold = 15; // Sensitivity
+    let lastX = 0, lastY = 0, lastZ = 0;
 
-                    if (lastX !== null && lastY !== null && lastZ !== null) {
-                        let deltaX = Math.abs(lastX - x);
-                        let deltaY = Math.abs(lastY - y);
-                        let deltaZ = Math.abs(lastZ - z);
+    window.addEventListener("devicemotion", function(event) {
+      const acc = event.accelerationIncludingGravity;
+      if (!acc) return;
 
-                        if (deltaX > shakeThreshold || deltaY > shakeThreshold || deltaZ > shakeThreshold) {
-                            openVideoPopup();
-                        }
-                    }
+      const deltaX = Math.abs(lastX - acc.x);
+      const deltaY = Math.abs(lastY - acc.y);
+      const deltaZ = Math.abs(lastZ - acc.z);
 
-                    lastX = x;
-                    lastY = y;
-                    lastZ = z;
-                });
-            }
+      if (deltaX > shakeThreshold || deltaY > shakeThreshold || deltaZ > shakeThreshold) {
+        triggerShake();
+      }
 
-            // Add click event for Next button
-            document.getElementById("nextButton").addEventListener("click", () => {
-                openVideoPopup();
-            });
+      lastX = acc.x;
+      lastY = acc.y;
+      lastZ = acc.z;
+    });
 
-            // Handle back button to return to the message popup
-            window.addEventListener("popstate", (event) => {
-                if (event.state?.screen === "messagePopup") {
-                    document.getElementById("videoPopup").style.display = "none";
-                    document.getElementById("messagePopup").style.display = "block";
-                }
-            });
-        });
+    function triggerShake() {
+      if (navigator.vibrate) {
+        navigator.vibrate(500); // Vibrates the device for 500ms
+      }
+      playVideo();
+    }
 
-        // Open the video popup
-        function openVideoPopup() {
-            document.getElementById("messagePopup").style.display = "none";
-            document.getElementById("videoPopup").style.display = "block";
-            history.pushState({ screen: "videoPopup" }, "Video Popup", "#videoPopup");
-        }
-    </script>
+    function playVideo() {
+      document.getElementById("messagePopup").style.display = "none";
+      document.getElementById("videoPopup").style.display = "block";
+      history.pushState({ screen: 'videoPopup' }, 'Video Popup', '#videoPopup');
+
+      // Unmute the video after it starts playing
+      let video = document.getElementById("videoPlayer");
+      video.muted = false;
+    }
+
+    window.addEventListener('popstate', function(event) {
+      if (event.state && event.state.screen === 'messagePopup') {
+        document.getElementById("messagePopup").style.display = "block";
+        document.getElementById("videoPopup").style.display = "none";
+      } else {
+        document.getElementById("welcome").style.display = "block";
+        document.getElementById("messagePopup").style.display = "none";
+        document.getElementById("videoPopup").style.display = "none";
+      }
+    });
+  </script>
 </body>
 </html>
